@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"os/exec"
 	"regexp"
+	"runtime"
 	"strings"
 )
 
@@ -20,7 +21,12 @@ func getStatus(folders []string) (statuses []Status, err error) {
 			return nil, err
 		}
 
-		lines := bytes.Split(out, []byte("\n"))
+		newline := "\n"
+		if os := runtime.GOOS; os == "windows" {
+			newline = "\r\n"
+		}
+
+		lines := bytes.Split(out, []byte(newline))
 		branch := lines[0]
 		modified := len(lines) > 2
 

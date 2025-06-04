@@ -28,6 +28,10 @@ func config() error {
 	viper.Set("noRoot", noRoot)
 	viper.Set("src", src)
 
+	if src == "." && len(flag.Args()) > 0 {
+		viper.Set("src", flag.Args()[0])
+	}
+
 	// loggers
 	if err := timber.New(
 		os.Stdout,

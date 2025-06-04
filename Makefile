@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := start
-.PHONY: help start
+.PHONY: fetch help start
 
 help: ## Print this help message
 	@echo "List of available make commands";

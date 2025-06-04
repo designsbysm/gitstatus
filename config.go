@@ -16,10 +16,10 @@ func config() error {
 	var src string
 
 	flag.BoolVar(&changes, "changes", false, "fetch remote branches")
-	flag.IntVar(&depth, "depth", 1, "max recursive folder depth")
+	flag.IntVar(&depth, "depth", 0, "max recursive folder depth")
 	flag.BoolVar(&fetch, "fetch", false, "fetch remote branches")
 	flag.BoolVar(&noRoot, "no-root", false, "skip root folder, only search subfolders")
-	flag.StringVar(&src, "src", ".", "source folder, defaults to current directory")
+	flag.StringVar(&src, "src", ".", "source folder")
 	flag.Parse()
 
 	viper.Set("changes", changes)

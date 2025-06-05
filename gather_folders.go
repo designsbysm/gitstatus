@@ -11,13 +11,17 @@ import (
 
 func gatherFolders(src string, maxDepth int) (files []string, err error) {
 	noRoot := viper.GetBool("noRoot")
+	rootDepth := len(strings.Split(src, string(os.PathSeparator)))
+	if strings.HasPrefix(src, "./") {
+		rootDepth -= 1
+	}
 
 	err = filepath.WalkDir(src, func(path string, dir fs.DirEntry, err error) error {
 		currentDepth := strings.Count(path, string(os.PathSeparator))
 
 		if err != nil {
 			return err
-		} else if dir.IsDir() && currentDepth > maxDepth || (strings.Contains(path, "node_modules")) {
+		} else if dir.IsDir() && currentDepth > rootDepth+maxDepth || (strings.Contains(path, "node_modules")) {
 			return fs.SkipDir
 		} else if dir.IsDir() && (strings.Contains(path, ".git")) {
 			if noRoot && filepath.Dir(path) == src {

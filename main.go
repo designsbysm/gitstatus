@@ -37,7 +37,5 @@ func main() {
 		return
 	}
 
-	// timber.Debug("Statuses", statuses)
-
 	outputStatuses(statuses)
 }

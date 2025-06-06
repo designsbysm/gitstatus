@@ -16,11 +16,11 @@ func fetch(path string, wg *sync.WaitGroup) {
 	cmd.Dir = path
 
 	if err := cmd.Run(); err != nil {
-		timber.Error(err)
+		timber.Error(path, err)
 	}
 }
 
-func fetchRemotes(folders []string) error {
+func remotesFetch(folders []string) error {
 	s := spinner.New(spinner.CharSets[11], 100*time.Millisecond)
 	s.Start()
 

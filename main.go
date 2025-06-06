@@ -15,6 +15,7 @@ func main() {
 
 	depth := viper.GetInt("depth")
 	fetch := viper.GetBool("fetch")
+	pull := viper.GetBool("pull")
 	src := viper.GetString("src")
 
 	folders, err := gatherFolders(src, depth)
@@ -24,7 +25,7 @@ func main() {
 	}
 
 	if fetch {
-		err = fetchRemotes(folders)
+		err = remotesFetch(folders)
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -35,6 +36,20 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 		return
+	}
+
+	if pull {
+		err = remotesPull(statuses)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		statuses, err = getStatus(folders)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 	}
 
 	outputStatuses(statuses)

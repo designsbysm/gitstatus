@@ -17,7 +17,13 @@ func pull(path string, wg *sync.WaitGroup) {
 	cmd.Dir = path
 
 	if err := cmd.Run(); err != nil {
-		timber.Error(path, err)
+		if exitErr, ok := err.(*exec.ExitError); ok {
+			if exitErr.ExitCode() < 1 {
+				timber.Error(path, err)
+			}
+		} else {
+			timber.Error(path, err)
+		}
 	}
 
 	install := viper.GetBool("install")
